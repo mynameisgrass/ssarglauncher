@@ -16,6 +16,44 @@
 
 ---
 
+## 📥 One-Command Installation
+
+### 🐧 Linux (1-Command Terminal Install)
+
+Copy and paste your distribution's command to download and install **Ssarg Launcher** in seconds:
+
+- **Universal Linux / Fedora / Arch / Steam Deck (`.AppImage` - Recommended)**:
+  ```bash
+  mkdir -p ~/Applications && curl -L -o ~/Applications/SsargLauncher.AppImage "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher_1.0.0_amd64.AppImage" && chmod +x ~/Applications/SsargLauncher.AppImage && ~/Applications/SsargLauncher.AppImage
+  ```
+  *(Note for Fedora users: If your Fedora system is fresh and lacks FUSE support, run `sudo dnf install -y fuse-libs` first).*
+- **Ubuntu / Debian / Linux Mint / Pop!_OS (`.deb`)**:
+  ```bash
+  curl -L -o /tmp/ssarg.deb "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher_1.0.0_amd64.deb" && sudo apt install -y /tmp/ssarg.deb
+  ```
+- **Fedora / RHEL / CentOS (`.rpm`)**:
+  ```bash
+  sudo dnf install -y --nogpgcheck "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher-1.0.0-1.x86_64.rpm"
+  ```
+
+### 🪟 Windows
+- **1-Click Setup**: Download `Ssarg.Launcher_<version>_x64-setup.exe` from [GitHub Releases](https://github.com/mynameisgrass/ssarglauncher/releases/latest) and double-click to install.
+- **PowerShell (1-Command Install)**:
+  ```powershell
+  Invoke-WebRequest -Uri "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher_1.0.0_x64-setup.exe" -OutFile "$env:TEMP\SsargLauncherSetup.exe"; & "$env:TEMP\SsargLauncherSetup.exe"
+  ```
+  *(Note: When installing open-source software on Windows for the first time, if Microsoft SmartScreen says "Windows protected your PC", simply click **More info → Run anyway**).*
+
+### 🍎 macOS
+- **1-Click DMG**: Download `Ssarg.Launcher_<version>_universal.dmg` from [GitHub Releases](https://github.com/mynameisgrass/ssarglauncher/releases/latest), open it, and drag **Ssarg Launcher** into your `Applications` folder.
+- **Terminal (1-Command Install)**:
+  ```bash
+  curl -L -o /tmp/SsargLauncher.dmg "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher_1.0.0_universal.dmg" && hdiutil attach /tmp/SsargLauncher.dmg && cp -R "/Volumes/Ssarg Launcher/Ssarg Launcher.app" /Applications/ && hdiutil detach "/Volumes/Ssarg Launcher"
+  ```
+  *(Note: When launching an open-source app for the first time on macOS, if Gatekeeper says "developer cannot be verified", simply right-click or two-finger tap **Ssarg Launcher** in Applications and choose **Open → Open**).*
+
+---
+
 ## ✨ Key Features
 
 ### 🌐 Unified Modrinth + CurseForge Search
