@@ -72,3 +72,8 @@ export async function get_live_log_buffer(instanceId) {
 export async function clear_log_buffer(instanceId) {
 	return await invoke('plugin:logs|logs_clear_live_log_buffer', { instanceId })
 }
+
+/// Parse instance crash diagnostics from latest.log or crash report
+export async function parse_crash_diagnostics(instanceId) {
+	return await invoke('plugin:logs|logs_parse_crash_diagnostics', { instanceId })
+}

@@ -487,6 +487,30 @@ where
     Ok((size, hasher.digest().to_string()))
 }
 
+pub(crate) async fn get_pack_name_from_mrpack(
+    file: &CreatePackFile,
+) -> crate::Result<String> {
+    let mut zip_reader = MrpackZipReader::new(file).await?;
+    let mr_manifest_idx = zip_reader.file().entries().iter().position(|entry| {
+        matches!(entry.filename().as_str(), Ok("modrinth.index.json"))
+    });
+    let cf_manifest_idx = zip_reader.file().entries().iter().position(|entry| {
+        matches!(entry.filename().as_str(), Ok("manifest.json"))
+    });
+
+    if let Some(manifest_idx) = mr_manifest_idx {
+        let manifest = zip_reader.read_entry_to_string(manifest_idx).await?;
+        let pack: PackFormat = serde_json::from_str(&manifest)?;
+        Ok(pack.name)
+    } else if let Some(manifest_idx) = cf_manifest_idx {
+        let manifest_str = zip_reader.read_entry_to_string(manifest_idx).await?;
+        let cf_manifest: CurseForgeManifest = serde_json::from_str(&manifest_str)?;
+        Ok(cf_manifest.name)
+    } else {
+        Err(crate::ErrorKind::InputError("No manifest found".to_string()).into())
+    }
+}
+
 pub(crate) async fn get_external_files_from_mrpack(
     file: &CreatePackFile,
 ) -> crate::Result<Vec<String>> {

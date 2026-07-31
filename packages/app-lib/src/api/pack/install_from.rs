@@ -215,14 +215,25 @@ pub async fn get_instance_from_pack(
                 false
             };
 
+            let pack_file = CreatePackFile::Path(path);
             let external_files_in_modpack =
                 super::install_mrpack::get_external_files_from_mrpack(
-                    &CreatePackFile::Path(path),
+                    &pack_file,
                 )
                 .await?;
 
+            let manifest_name = super::install_mrpack::get_pack_name_from_mrpack(
+                &pack_file,
+            )
+            .await
+            .ok();
+
+            let final_name = manifest_name
+                .filter(|n| !n.trim().is_empty())
+                .unwrap_or(file_name);
+
             Ok(CreatePackInstance {
-                name: file_name,
+                name: final_name,
                 unknown_file: !is_known_file,
                 external_files_in_modpack,
                 ..Default::default()

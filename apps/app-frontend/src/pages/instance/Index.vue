@@ -55,6 +55,14 @@
 		</div>
 		<div :class="['px-6', { 'shrink-0': isFixedRender }]">
 			<NavTabs :links="tabs" />
+			<CrashDiagnosticBanner
+				v-if="crashReport && crashReport.has_crashed"
+				class="mt-4"
+				:instance-id="instance.id"
+				:report="crashReport"
+				@dismiss="crashReport = null"
+				@repaired="checkCrashReport"
+			/>
 			<InstanceAdmonitions
 				class="mt-4"
 				:instance="instance"
@@ -154,6 +162,7 @@ import { computed, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import ContextMenu from '@/components/ui/ContextMenu.vue'
+import CrashDiagnosticBanner, { type CrashDiagnosticReport } from '@/components/ui/CrashDiagnosticBanner.vue'
 import ExportModal from '@/components/ui/ExportModal.vue'
 import InstanceAdmonitions from '@/components/ui/instance/instance-admonitions/index.vue'
 import InstancePageHeader from '@/components/ui/instance-page-header/index.vue'
@@ -188,6 +197,7 @@ import {
 } from '@/helpers/instance'
 import { type InstanceContentData, loadInstanceContentData } from '@/helpers/instance-content'
 import { get_by_instance_id } from '@/helpers/process'
+import { parse_crash_diagnostics } from '@/helpers/logs'
 import { useSharedInstanceErrors } from '@/helpers/shared-instance-errors'
 import type { GameInstance } from '@/helpers/types'
 import { createInstanceShortcut, showInstanceInFolder } from '@/helpers/utils.js'
@@ -245,6 +255,35 @@ const loading = ref(false)
 const checkingSharedInstanceLaunch = ref(false)
 const subpagePending = ref(false)
 const stopping = ref(false)
+const crashReport = ref<CrashDiagnosticReport | null>(null)
+
+async function checkCrashReport() {
+	if (!instance.value?.id) return
+	try {
+		const res = await parse_crash_diagnostics(instance.value.id)
+		if (res && res.has_crashed) {
+			crashReport.value = res
+		} else {
+			crashReport.value = null
+		}
+	} catch (e) {
+		console.error('Failed to parse crash report', e)
+	}
+}
+
+watch(
+	() => instance.value?.id,
+	() => {
+		checkCrashReport()
+	},
+	{ immediate: true },
+)
+
+watch(playing, (newPlaying, oldPlaying) => {
+	if (oldPlaying && !newPlaying) {
+		checkCrashReport()
+	}
+})
 const exportModal = ref<InstanceType<typeof ExportModal>>()
 const updateToPlayModal = ref<InstanceType<typeof UpdateToPlayModal>>()
 const sharedInstanceUpdateModal = ref<InstanceType<typeof SharedInstanceUpdateModal>>()

@@ -887,10 +887,16 @@ function getCardActions(
 								url: cfUrl,
 								filename: `${projectResult.project_id || 'modpack'}.zip`,
 							})
-							const job = await install_create_modpack_instance({
-								type: 'fromFile',
-								path: filePath,
-							})
+							const job = await install_create_modpack_instance(
+								{
+									type: 'fromFile',
+									path: filePath,
+								},
+								{
+									name: projectResult.title || undefined,
+									iconPath: projectResult.icon_url || undefined,
+								},
+							)
 							if (job?.instance_id) {
 								router.push(`/instance/${job.instance_id}`)
 							}

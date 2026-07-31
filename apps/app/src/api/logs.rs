@@ -23,8 +23,17 @@ pub fn init<R: tauri::Runtime>() -> tauri::plugin::TauriPlugin<R> {
             logs_get_latest_log_cursor,
             logs_get_live_log_buffer,
             logs_clear_live_log_buffer,
+            logs_parse_crash_diagnostics,
         ])
         .build()
+}
+
+/// Parse instance crash diagnostics from latest.log or crash report.
+#[tauri::command]
+pub async fn logs_parse_crash_diagnostics(
+    instance_id: &str,
+) -> Result<theseus::logs::CrashDiagnosticReport> {
+    Ok(theseus::logs::parse_instance_crash_diagnostics(instance_id).await?)
 }
 
 /// Get all logs for an instance, sorted by filename.

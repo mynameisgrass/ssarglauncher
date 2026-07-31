@@ -559,3 +559,251 @@ pub async fn get_generic_live_log_cursor(
         output,
     })
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct CrashDiagnosticReport {
+    pub has_crashed: bool,
+    pub error_type: String,
+    pub summary: String,
+    pub recommendation: String,
+    pub target_mod_id: Option<String>,
+    pub target_mod_name: Option<String>,
+    pub required_version: Option<String>,
+    pub recommended_ram_mb: Option<u32>,
+    pub recommended_java_version: Option<u32>,
+    pub log_snippet: Option<String>,
+}
+
+fn extract_log_snippet(content: &str, keyword: &str) -> Option<String> {
+    let lines: Vec<&str> = content.lines().collect();
+    let lower_kw = keyword.to_lowercase();
+    for (i, line) in lines.iter().enumerate() {
+        if line.to_lowercase().contains(&lower_kw) {
+            let start = i.saturating_sub(4);
+            let end = (i + 10).min(lines.len());
+            return Some(lines[start..end].join("\n"));
+        }
+    }
+    None
+}
+
+fn extract_missing_dependency_details(content: &str) -> (String, Option<String>, Option<String>) {
+    for line in content.lines() {
+        let l_lower = line.to_lowercase();
+        if l_lower.contains("requires") {
+            if l_lower.contains("indium") {
+                return (
+                    "Crash Detected: Sodium / Sodium Options is missing the Indium dependency.".to_string(),
+                    Some("indium".to_string()),
+                    None,
+                );
+            }
+            if l_lower.contains("fabric-api") || l_lower.contains("fabric api") {
+                return (
+                    "Crash Detected: Mod requires Fabric API dependency.".to_string(),
+                    Some("fabric-api".to_string()),
+                    None,
+                );
+            }
+            return (
+                format!("Crash Detected: Missing required mod dependency. ({line})"),
+                None,
+                None,
+            );
+        }
+    }
+    ("Crash Detected: Missing required mod dependency.".to_string(), None, None)
+}
+
+fn extract_duplicate_mod_id(content: &str) -> Option<String> {
+    for line in content.lines() {
+        if line.to_lowercase().contains("duplicate") {
+            if let Some(start) = line.find('\'') {
+                if let Some(end) = line[start + 1..].find('\'') {
+                    return Some(line[start + 1..start + 1 + end].to_string());
+                }
+            }
+        }
+    }
+    None
+}
+
+fn extract_mixin_details(content: &str) -> (Option<String>, String) {
+    for line in content.lines() {
+        if line.contains("Mixin") || line.contains("mixin") {
+            return (
+                None,
+                format!("Mixin Transformer Error: Mod injection conflict detected. ({line})"),
+            );
+        }
+    }
+    (None, "Mixin Transformer Error: Conflict during mod injection.".to_string())
+}
+
+#[tracing::instrument]
+pub async fn parse_instance_crash_diagnostics(instance_id: &str) -> crate::Result<CrashDiagnosticReport> {
+    let state = State::get().await?;
+    let instance_path = resolve_instance_path(instance_id, &state).await?;
+    
+    // 1. Check crash-reports folder first for latest crash report
+    let crash_reports_dir = instance_path.join("crash-reports");
+    if crash_reports_dir.exists() {
+        if let Ok(mut entries) = tokio::fs::read_dir(&crash_reports_dir).await {
+            let mut latest_file = None;
+            let mut latest_time = SystemTime::UNIX_EPOCH;
+            while let Ok(Some(entry)) = entries.next_entry().await {
+                if let Ok(meta) = entry.metadata().await {
+                    if let Ok(mod_time) = meta.modified() {
+                        if mod_time > latest_time {
+                            latest_time = mod_time;
+                            latest_file = Some(entry.path());
+                        }
+                    }
+                }
+            }
+            if let Some(crash_file) = latest_file {
+                if let Ok(content) = tokio::fs::read_to_string(&crash_file).await {
+                    let report = parse_crash_diagnostics_from_text(&content);
+                    if report.has_crashed {
+                        return Ok(report);
+                    }
+                }
+            }
+        }
+    }
+
+    // 2. Check latest.log
+    let logs_dir = state.directories.instance_logs_dir(&instance_path);
+    let latest_log_path = logs_dir.join("latest.log");
+    if latest_log_path.exists() {
+        if let Ok(content) = tokio::fs::read_to_string(&latest_log_path).await {
+            let report = parse_crash_diagnostics_from_text(&content);
+            return Ok(report);
+        }
+    }
+
+    Ok(CrashDiagnosticReport {
+        has_crashed: false,
+        error_type: "none".to_string(),
+        summary: "No crash detected.".to_string(),
+        recommendation: "".to_string(),
+        target_mod_id: None,
+        target_mod_name: None,
+        required_version: None,
+        recommended_ram_mb: None,
+        recommended_java_version: None,
+        log_snippet: None,
+    })
+}
+
+pub fn parse_crash_diagnostics_from_text(log_content: &str) -> CrashDiagnosticReport {
+    let lower = log_content.to_lowercase();
+
+    if lower.contains("java.lang.outofmemoryerror") || lower.contains("gc overhead limit exceeded") || lower.contains("out of memory") {
+        return CrashDiagnosticReport {
+            has_crashed: true,
+            error_type: "out_of_memory".to_string(),
+            summary: "Out of Memory: Java heap space exhausted during game execution.".to_string(),
+            recommendation: "Increase allocated RAM memory to at least 6GB (6144 MB) in instance settings.".to_string(),
+            target_mod_id: None,
+            target_mod_name: None,
+            required_version: None,
+            recommended_ram_mb: Some(6144),
+            recommended_java_version: None,
+            log_snippet: extract_log_snippet(log_content, "OutOfMemoryError"),
+        };
+    }
+
+    if lower.contains("requires") && (lower.contains("mod") || lower.contains("dependency") || lower.contains("indium") || lower.contains("fabric") || lower.contains("forge")) {
+        let (summary, mod_id, req_ver) = extract_missing_dependency_details(log_content);
+        return CrashDiagnosticReport {
+            has_crashed: true,
+            error_type: "missing_dependency".to_string(),
+            summary: summary.clone(),
+            recommendation: format!("Install missing dependency mod '{}' from the Browse tab.", mod_id.as_deref().unwrap_or("required mod")),
+            target_mod_id: mod_id,
+            target_mod_name: None,
+            required_version: req_ver,
+            recommended_ram_mb: None,
+            recommended_java_version: None,
+            log_snippet: extract_log_snippet(log_content, "requires"),
+        };
+    }
+
+    if lower.contains("duplicate mod") || lower.contains("found duplicate") || lower.contains("modidalreadyexistsexception") {
+        let dup_id = extract_duplicate_mod_id(log_content);
+        return CrashDiagnosticReport {
+            has_crashed: true,
+            error_type: "duplicate_mod".to_string(),
+            summary: format!("Duplicate Mod Detected: Multiple copies of mod '{}' installed.", dup_id.as_deref().unwrap_or("mod")),
+            recommendation: "Remove or disable the duplicate mod version in the instance mods tab.".to_string(),
+            target_mod_id: dup_id,
+            target_mod_name: None,
+            required_version: None,
+            recommended_ram_mb: None,
+            recommended_java_version: None,
+            log_snippet: extract_log_snippet(log_content, "duplicate"),
+        };
+    }
+
+    if lower.contains("unsupportedclassversionerror") || lower.contains("has been compiled by a more recent version of the java runtime") || lower.contains("class file version 61.0") || lower.contains("class file version 65.0") {
+        let (needed_ver, text) = if lower.contains("version 65.0") { (21, "Java 21") } else { (17, "Java 17") };
+        return CrashDiagnosticReport {
+            has_crashed: true,
+            error_type: "java_mismatch".to_string(),
+            summary: format!("Java Version Mismatch: Game requires {text} or higher."),
+            recommendation: format!("Switch instance Java version to {text} using 1-Click Auto JDK."),
+            target_mod_id: None,
+            target_mod_name: None,
+            required_version: None,
+            recommended_ram_mb: None,
+            recommended_java_version: Some(needed_ver),
+            log_snippet: extract_log_snippet(log_content, "UnsupportedClassVersionError"),
+        };
+    }
+
+    if lower.contains("mixintransformererror") || lower.contains("mixin apply failed") || lower.contains("critical injection failure") {
+        let (failing_mixin, summary) = extract_mixin_details(log_content);
+        return CrashDiagnosticReport {
+            has_crashed: true,
+            error_type: "mixin_conflict".to_string(),
+            summary,
+            recommendation: "Mod mixin conflict detected. Try updating or disabling the conflicting mod.".to_string(),
+            target_mod_id: failing_mixin,
+            target_mod_name: None,
+            required_version: None,
+            recommended_ram_mb: None,
+            recommended_java_version: None,
+            log_snippet: extract_log_snippet(log_content, "Mixin"),
+        };
+    }
+
+    if lower.contains("crash") || lower.contains("fatal") || lower.contains("exception") {
+        return CrashDiagnosticReport {
+            has_crashed: true,
+            error_type: "unknown".to_string(),
+            summary: "Minecraft crashed unexpectedly during execution.".to_string(),
+            recommendation: "Check the full instance log for details or repair the instance.".to_string(),
+            target_mod_id: None,
+            target_mod_name: None,
+            required_version: None,
+            recommended_ram_mb: None,
+            recommended_java_version: None,
+            log_snippet: extract_log_snippet(log_content, "Exception"),
+        };
+    }
+
+    CrashDiagnosticReport {
+        has_crashed: false,
+        error_type: "none".to_string(),
+        summary: "No crash detected.".to_string(),
+        recommendation: "".to_string(),
+        target_mod_id: None,
+        target_mod_name: None,
+        required_version: None,
+        recommended_ram_mb: None,
+        recommended_java_version: None,
+        log_snippet: None,
+    }
+}
+
