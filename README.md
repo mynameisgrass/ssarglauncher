@@ -66,24 +66,33 @@ Launch the Vite hot-reload frontend alongside the native Tauri desktop runtime:
 pnpm app:dev
 ```
 
-### 4. Build Production Release (Desktop Binary & Installer)
-To compile the optimized standalone executable (`Ssarg Launcher.exe`) and Windows setup installer:
+### 4. Build Production Release (Multi-Platform Binary & Installers)
+Because Tauri compiles native desktop applications, running the build command generates the bundle for your current operating system:
+
 ```bash
 pnpm --filter @modrinth/app run build
 ```
 
-Once finished, your compiled build artifacts will be available in:
-- **Standalone Portable App (`.exe`)**: `target/release/Ssarg Launcher.exe`
-- **Windows Setup Installer**: `target/release/bundle/nsis/Ssarg Launcher_<version>_x64-setup.exe`
+Once finished, your compiled build artifacts appear in `target/release/` and `target/release/bundle/`:
+
+| Operating System | Standalone Binary | Setup / Installer Bundle |
+| :--- | :--- | :--- |
+| **Windows (x64)** | `target/release/Ssarg Launcher.exe` | `target/release/bundle/nsis/Ssarg Launcher_<version>_x64-setup.exe` |
+| **macOS (Universal / Apple Silicon & Intel)** | `target/release/Ssarg Launcher` | `target/release/bundle/dmg/Ssarg Launcher_<version>_universal.dmg` |
+| **Linux (x64 / Debian & RPM)** | `target/release/Ssarg Launcher` | `target/release/bundle/appimage/Ssarg Launcher_<version>_amd64.AppImage` |
+
+> [!TIP]
+> **How to build for all 3 platforms (Windows, macOS, Linux) without owning a Mac or Linux PC:**  
+> You don't need separate computers! When you push a version tag to GitHub (e.g., `git tag v1.0.0 && git push --tags`), our pre-configured **GitHub Actions CI/CD Release Workflow** (`.github/workflows/build-release.yml`) automatically spins up Windows, macOS, and Linux cloud runners, compiles all three platforms in parallel, and publishes the `.exe`, `.dmg`, and `.AppImage` files directly to your official GitHub Releases page!
 
 ---
 
 ## 📦 Automated GitHub Actions CI/CD Releases
 
-This repository includes pre-configured GitHub Actions workflows for continuous integration and automated releases:
+This repository includes a pre-configured GitHub Actions workflow (`.github/workflows/build-release.yml`) for automated multi-platform builds and releases:
 
-- **Build Workflow** (`.github/workflows/theseus-build.yml`): Automatically lints, checks, and tests both Rust and frontend packages across Windows, macOS, and Linux on every pull request.
-- **Release Workflow** (`.github/workflows/theseus-release.yml`): When you push a version tag (e.g., `git tag v1.0.0 && git push --tags`), GitHub Actions automatically compiles production bundles for **Windows (x64)**, **macOS (Universal)**, and **Linux (x64)** and publishes them as official GitHub Releases.
+- **Automated Releases**: When you push a version tag (e.g., `git tag v1.0.0 && git push --tags`), GitHub Actions automatically compiles production bundles for **Windows (x64)**, **macOS (Universal Apple Silicon & Intel)**, and **Linux (x64 AppImage/deb/rpm)** and publishes them as an official GitHub Release.
+- **Manual Trigger**: You can also trigger a build anytime by clicking the **"Run workflow"** button on the `Build and Release Ssarg Launcher` workflow in the GitHub Actions tab.
 
 ---
 
