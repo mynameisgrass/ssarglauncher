@@ -16,6 +16,23 @@ fn main() {
 }
 
 fn set_env() {
+    let mut defaults = std::collections::HashMap::from([
+        ("MODRINTH_URL", "https://modrinth.com/"),
+        ("MODRINTH_API_BASE_URL", "https://api.modrinth.com/"),
+        (
+            "SHARED_INSTANCES_API_BASE_URL",
+            "https://shared-instances.modrinth.com/",
+        ),
+        ("MODRINTH_ARCHON_BASE_URL", "https://archon.modrinth.com/"),
+        ("MODRINTH_API_URL", "https://api.modrinth.com/v2/"),
+        ("MODRINTH_API_URL_V3", "https://api.modrinth.com/v3/"),
+        ("MODRINTH_SOCKET_URL", "wss://api.modrinth.com/"),
+        (
+            "MODRINTH_LAUNCHER_META_URL",
+            "https://launcher-meta.modrinth.com/",
+        ),
+    ]);
+
     for (var_name, var_value) in
         dotenvy::dotenv_iter().into_iter().flatten().flatten()
     {
@@ -25,6 +42,11 @@ fn set_env() {
         }
 
         println!("cargo::rustc-env={var_name}={var_value}");
+        defaults.remove(var_name.as_str());
+    }
+
+    for (var_name, default_value) in defaults {
+        println!("cargo::rustc-env={var_name}={default_value}");
     }
 }
 
