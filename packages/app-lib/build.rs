@@ -46,6 +46,16 @@ fn build_java_jars() {
     )
     .unwrap();
 
+    #[cfg(not(target_os = "windows"))]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        if let Ok(metadata) = fs::metadata(&gradle_path) {
+            let mut perms = metadata.permissions();
+            perms.set_mode(0o755);
+            let _ = fs::set_permissions(&gradle_path, perms);
+        }
+    }
+
     let mut build_dir_str = OsString::from("-Dorg.gradle.project.buildDir=");
     build_dir_str.push(out_dir.join("java"));
     let exit_status = Command::new(gradle_path)

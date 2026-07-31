@@ -48,6 +48,16 @@ jobs:
         with:
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Ensure Unix permissions on Gradle wrapper
+        if: matrix.platform != 'windows-latest'
+        run: chmod +x packages/app-lib/java/gradlew
+
       - name: Install repository dependencies
         run: pnpm install --no-frozen-lockfile
 
