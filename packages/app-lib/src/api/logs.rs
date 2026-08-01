@@ -646,7 +646,7 @@ pub async fn parse_instance_crash_diagnostics(instance_id: &str) -> crate::Resul
     let instance_path = resolve_instance_path(instance_id, &state).await?;
     
     // 1. Check crash-reports folder first for latest crash report
-    let crash_reports_dir = instance_path.join("crash-reports");
+    let crash_reports_dir = std::path::Path::new(&instance_path).join("crash-reports");
     if crash_reports_dir.exists() {
         if let Ok(mut entries) = tokio::fs::read_dir(&crash_reports_dir).await {
             let mut latest_file = None;
