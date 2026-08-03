@@ -1066,10 +1066,15 @@ fn schedule_pending_skin_change_flush(profile_id: Uuid, generation: u64) {
         ))
         .await
         {
-            let _ = crate::event::emit::emit_warning(&format!(
-                "Failed to apply pending Minecraft skin change: {error}"
-            ))
-            .await;
+            if !matches!(
+                *error.raw,
+                crate::error::ErrorKind::OnlineMinecraftProfileUnavailable { .. }
+            ) {
+                let _ = crate::event::emit::emit_warning(&format!(
+                    "Failed to apply pending Minecraft skin change: {error}"
+                ))
+                .await;
+            }
         }
     });
 }
@@ -1163,11 +1168,18 @@ async fn flush_pending_skin_change_inner(
         };
 
         if let Err(error) = execute_pending_skin_change(&entry.change).await {
-            let profile_id = entry.change.profile_id();
-            let generation = entry.generation;
-            let mut state = PENDING_SKIN_CHANGE.lock().await;
-            state.pending.entry(profile_id).or_insert(entry);
-            schedule_pending_skin_change_flush(profile_id, generation);
+            let is_offline = matches!(
+                *error.raw,
+                crate::error::ErrorKind::OnlineMinecraftProfileUnavailable { .. }
+            );
+
+            if !is_offline {
+                let profile_id = entry.change.profile_id();
+                let generation = entry.generation;
+                let mut state = PENDING_SKIN_CHANGE.lock().await;
+                state.pending.entry(profile_id).or_insert(entry);
+                schedule_pending_skin_change_flush(profile_id, generation);
+            }
 
             return Err(error);
         }
