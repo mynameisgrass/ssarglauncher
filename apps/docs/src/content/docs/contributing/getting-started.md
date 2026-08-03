@@ -17,8 +17,8 @@ You can find the source repository [here](https://github.com/mynameisgrass/ssarg
 
 Follow the project-specific instructions below to get started:
 
-- [Ssarg Launcher App](/ssarglauncher/contributing/theseus)
-- [Docs (Developer/Contributor Documentation)](/ssarglauncher/contributing/docs)
+- [Ssarg Launcher App](/contributing/theseus)
+- [Docs (Developer/Contributor Documentation)](/contributing/docs)
 
 [GitHub]: https://github.com/mynameisgrass/ssarglauncher
 [theseus]: https://github.com/mynameisgrass/ssarglauncher/tree/main/apps/app

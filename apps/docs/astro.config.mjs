@@ -4,8 +4,7 @@ import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi'
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://grassist.me',
-	base: '/ssarglauncher',
+	site: 'https://launcher.grassist.me',
 	integrations: [
 		starlight({
 			title: 'Ssarg Launcher Documentation',

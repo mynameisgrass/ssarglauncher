@@ -1,6 +1,6 @@
 ---
 title: Daedalus (Metadata service)
-description: Guide for contributing to Modrinth's frontend
+description: Guide for contributing to Ssarg Launcher's frontend
 sidebar:
   order: 5
 ---
