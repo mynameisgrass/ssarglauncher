@@ -1,36 +1,28 @@
 ---
 title: Getting started
-description: How can I contribute to Modrinth?
+description: How can I contribute to Ssarg Launcher?
 sidebar:
   order: 1
 ---
 
-# Contributing to Modrinth
+# Contributing to Ssarg Launcher
 
-Every public-facing aspect of Modrinth, including everything from our [API/backend][labrinth] and [frontend][knossos] to our [Gradle plugin][minotaur] and [launcher][theseus], is released under free and open source licenses on [GitHub]. As such, we love contributions from community members! Before proceeding to do so, though, there are a number of things you'll want to keep in mind throughout the process, as well as some details specific to certain projects.
+Welcome to the documentation for **Ssarg Launcher**! The launcher is an open-source, Tauri-based Minecraft and modpack launcher with unified Modrinth & CurseForge search, zero ads, zero telemetry, and automatic Java JDK setup.
 
 ## Development
 
-If you wish to contribute code to a specific project, here's the place to start. Most of Modrinth is written in the [Rust language](https://www.rust-lang.org), but some things are written in other languages/frameworks like [Nuxt.js](https://nuxtjs.org) or Java.
+If you wish to contribute code to **Ssarg Launcher**, here is the place to start. The launcher is built with **Rust** (Tauri) for the backend and **Vue 3** (TypeScript) for the frontend.
 
-Most of Modrinth's code is in our monorepo, which you can find [here](https://github.com/modrinth/code). Our monorepo is powered by [Turborepo](https://turborepo.org).
+You can find the source repository [here](https://github.com/mynameisgrass/ssarglauncher). Our monorepo is powered by [Turborepo](https://turborepo.org).
 
 Follow the project-specific instructions below to get started:
 
-- [Modrinth Website](/contributing/knossos)
-- [Modrinth App](/contributing/theseus)
-- [Minotaur (Gradle plugin)](/contributing/minotaur)
-- [Labrinth (API/backend)](/contributing/labrinth)
-- [Daedalus (Metadata service)](/contributing/daedalus)
-- [Docs (Developer/Contributor Documentation)](/contributing/docs)
+- [Ssarg Launcher App](/ssarglauncher/contributing/theseus)
+- [Docs (Developer/Contributor Documentation)](/ssarglauncher/contributing/docs)
 
-[Discord]: https://discord.modrinth.com
-[GitHub]: https://github.com/modrinth
-[knossos]: https://github.com/modrinth/code/tree/main/apps/frontend
-[labrinth]: https://github.com/modrinth/labrinth
-[theseus]: https://github.com/modrinth/theseus
-[minotaur]: https://github.com/modrinth/minotaur
-[docs]: https://github.com/modrinth/code/tree/main/apps/docs
+[GitHub]: https://github.com/mynameisgrass/ssarglauncher
+[theseus]: https://github.com/mynameisgrass/ssarglauncher/tree/main/apps/app
+[docs]: https://github.com/mynameisgrass/ssarglauncher/tree/main/apps/docs
 [Rust]: https://www.rust-lang.org/tools/install
 [pnpm]: https://pnpm.io
 

@@ -4,25 +4,22 @@ import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi'
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://docs.modrinth.com',
+	site: 'https://grassist.me',
+	base: '/ssarglauncher',
 	integrations: [
 		starlight({
-			title: 'Modrinth Documentation',
+			title: 'Ssarg Launcher Documentation',
 			favicon: '/favicon.ico',
 			editLink: {
-				baseUrl: 'https://github.com/modrinth/code/edit/main/apps/docs/',
+				baseUrl: 'https://github.com/mynameisgrass/ssarglauncher/edit/main/apps/docs/',
 			},
 			social: {
-				github: 'https://github.com/modrinth/code',
-				discord: 'https://discord.modrinth.com',
-				'x.com': 'https://x.com/modrinth',
-				mastodon: 'https://floss.social/@modrinth',
-				threads: 'https://threads.net/@modrinth',
+				github: 'https://github.com/mynameisgrass/ssarglauncher',
 			},
 			logo: {
 				light: './src/assets/light-logo.svg',
 				dark: './src/assets/dark-logo.svg',
-				replacesTitle: true,
+				replacesTitle: false,
 			},
 			customCss: [
 				'@modrinth/assets/styles/variables.scss',
@@ -41,7 +38,7 @@ export default defineConfig({
 			],
 			sidebar: [
 				{
-					label: 'Contributing to Modrinth',
+					label: 'Contributing to Ssarg Launcher',
 					autogenerate: { directory: 'contributing' },
 				},
 				{

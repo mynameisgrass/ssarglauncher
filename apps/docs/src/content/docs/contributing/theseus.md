@@ -1,11 +1,11 @@
 ---
-title: Modrinth App
-description: Guide for contributing to Modrinth's desktop app
+title: Ssarg Launcher
+description: Guide for contributing to Ssarg Launcher
 sidebar:
   order: 3
 ---
 
-The [Modrinth App], codename Theseus, is the Tauri-based launcher that lets users conveniently play any mod or modpack on Modrinth. It uses the Rust-based Tauri as the backend and Vue.js as the frontend.
+[Ssarg Launcher](https://github.com/mynameisgrass/ssarglauncher) is the Tauri-based launcher that lets users conveniently play any mod or modpack on both Modrinth and CurseForge. It uses Rust-based Tauri as the backend and Vue 3 as the frontend.
 
 ## Setup
 
@@ -17,7 +17,7 @@ The [Modrinth App], codename Theseus, is the Tauri-based launcher that lets user
 
 ### 2. Install dependencies & set up .env
 
-- Clone [`https://github.com/modrinth/code`](https://github.com/modrinth/code) and run `pnpm install` in the workspace root folder.
+- Clone [`https://github.com/mynameisgrass/ssarglauncher`](https://github.com/mynameisgrass/ssarglauncher) and run `pnpm install` in the workspace root folder.
 - In `packages/app-lib` you should be able to see `.env.prod`, `.env.staging` — for basic app work, it's recommended to use `.env.prod`. Copy the relevant file into a new `.env` file within the `packages/app-lib` folder.
 
 ### 3. Run the app
