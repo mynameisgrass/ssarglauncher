@@ -1,13 +1,12 @@
 import starlight from '@astrojs/starlight'
 import { defineConfig } from 'astro/config'
-import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi'
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://launcher.grassist.me',
 	integrations: [
 		starlight({
-			title: 'Ssarg Launcher Documentation',
+			title: 'Ssarg Launcher',
 			favicon: '/favicon.ico',
 			editLink: {
 				baseUrl: 'https://github.com/mynameisgrass/ssarglauncher/edit/main/apps/docs/',
@@ -25,27 +24,15 @@ export default defineConfig({
 				'@modrinth/assets/styles/inter.scss',
 				'./src/styles/modrinth.css',
 			],
-			plugins: [
-				// Generate the OpenAPI documentation pages.
-				starlightOpenAPI([
-					{
-						base: 'api',
-						label: 'Modrinth API',
-						schema: './public/openapi.yaml',
-					},
-				]),
-			],
 			sidebar: [
 				{
-					label: 'Contributing to Ssarg Launcher',
-					autogenerate: { directory: 'contributing' },
+					label: 'Getting Started',
+					autogenerate: { directory: 'getting-started' },
 				},
 				{
-					label: 'Guides',
-					autogenerate: { directory: 'guide' },
+					label: 'Features',
+					autogenerate: { directory: 'features' },
 				},
-				// Add the generated sidebar group to the sidebar.
-				...openAPISidebarGroups,
 			],
 		}),
 	],

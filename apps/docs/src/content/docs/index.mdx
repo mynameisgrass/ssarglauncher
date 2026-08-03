@@ -1,15 +1,45 @@
 ---
-title: Ssarg Launcher Docs
-description: Documentation & Guides for Ssarg Launcher
+title: Ssarg Launcher
+description: The Ultimate Ad-Free, Cross-Platform Minecraft & Modpack Launcher
 template: splash
 hero:
-  tagline: Official documentation and guides for Ssarg Launcher
+  tagline: Discover, install, and play Minecraft modpacks across Modrinth and CurseForge in one unified, lightning-fast app.
   actions:
-    - text: Getting Started
-      link: /contributing/getting-started
+    - text: Download Now
+      link: /getting-started/download
       icon: right-arrow
+      variant: primary
+    - text: Explore Features
+      link: /features/overview
+      icon: open-book
+      variant: secondary
     - text: GitHub Repository
       link: https://github.com/mynameisgrass/ssarglauncher
       icon: external
       variant: minimal
 ---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why Choose Ssarg Launcher?
+
+<CardGrid stagger>
+  <Card title="Unified Modrinth + CurseForge Search" icon="magnifier">
+    Search and browse modpacks, mods, shaders, and resource packs across both Modrinth and CurseForge simultaneously in one clean interface.
+  </Card>
+  <Card title="Smart Download Ranking" icon="star">
+    Results are automatically sorted by total download count descending (`20M+ → 3M+ → 100K+...`), ensuring legendary packs like *All the Mods*, *FTB*, and *RLCraft* are always at the top.
+  </Card>
+  <Card title="100% Ad-Free & Zero Telemetry" icon="approve-check-circle">
+    Your gaming and privacy come first. Zero third-party telemetry, zero advertisements, and a completely clean console without tracking scripts.
+  </Card>
+  <Card title="1-Click Auto-JDK Installer" icon="setting">
+    Never fight with mismatched Java versions again. Automatically downloads and configures Java 8, 17, or 21 with 8x parallel chunk downloading.
+  </Card>
+  <Card title="Local Crash Diagnostics Engine" icon="warning">
+    Parses `latest.log` and crash reports locally in Rust to instantly diagnose duplicate mod IDs, missing dependencies (like Sodium/Indium), and Mixin conflicts.
+  </Card>
+  <Card title="Native Cross-Platform Speed" icon="rocket">
+    Built with a blazing-fast **Rust & Tauri** backend and a responsive **Vue 3** frontend for Linux, Windows, and macOS.
+  </Card>
+</CardGrid>
