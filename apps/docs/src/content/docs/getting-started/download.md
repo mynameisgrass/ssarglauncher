@@ -68,7 +68,7 @@ Invoke-WebRequest -Uri "https://github.com/mynameisgrass/ssarglauncher/releases/
 Run this command in Terminal to download, mount, and copy Ssarg Launcher to `/Applications` automatically:
 
 ```bash
-curl -L -o /tmp/SsargLauncher.dmg "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher_1.0.0_universal.dmg" && hdiutil attach /tmp/SsargLauncher.dmg && cp -R "/Volumes/Ssarg Launcher/Ssarg Launcher.app" /Applications/ && hdiutil detach "/Volumes/Ssarg Launcher"
+curl -L -o /tmp/SsargLauncher.dmg "https://github.com/mynameisgrass/ssarglauncher/releases/latest/download/Ssarg.Launcher_1.0.0_universal.dmg" && hdiutil attach -nobrowse -quiet /tmp/SsargLauncher.dmg && ditto "/Volumes/Ssarg Launcher/Ssarg Launcher.app" "/Applications/Ssarg Launcher.app" && hdiutil detach -quiet "/Volumes/Ssarg Launcher" && rm /tmp/SsargLauncher.dmg
 ```
 
 ---

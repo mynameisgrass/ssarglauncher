@@ -15,8 +15,7 @@ export default defineConfig({
 				github: 'https://github.com/mynameisgrass/ssarglauncher',
 			},
 			logo: {
-				light: './src/assets/light-logo.svg',
-				dark: './src/assets/dark-logo.svg',
+				src: './src/assets/logo.png',
 				replacesTitle: false,
 			},
 			customCss: [
