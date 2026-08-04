@@ -94,22 +94,25 @@ Download and run the recommended `.AppImage`, or install via package manager:
 
 <p align="center">
   <a href="https://github.com/mynameisgrass/ssarglauncher">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=mynameisgrass&repo=ssarglauncher&theme=dark" alt="Repository Stats" />
+    <img src="https://github-readme-stats.anuraghazra1.vercel.app/api/pin/?username=mynameisgrass&repo=ssarglauncher&theme=dark" alt="Repository Stats" />
   </a>
   <a href="https://github.com/mynameisgrass/ssarglauncher">
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mynameisgrass&layout=compact&theme=dark" alt="Top Langs" />
+    <img src="https://github-readme-stats.anuraghazra1.vercel.app/api/top-langs/?username=mynameisgrass&layout=compact&theme=dark" alt="Top Langs" />
   </a>
 </p>
 
-### Star History
+### Developer Statistics & Activity
 
 <p align="center">
-  <a href="https://star-history.com/#mynameisgrass/ssarglauncher&Date">
-    <img src="https://api.star-history.com/svg?repos=mynameisgrass/ssarglauncher&type=Date" alt="Star History Chart" />
+  <a href="https://github.com/mynameisgrass">
+    <img src="https://github-readme-stats.anuraghazra1.vercel.app/api?username=mynameisgrass&show_icons=true&theme=dark" alt="GitHub Stats" />
+  </a>
+  <a href="https://github.com/mynameisgrass">
+    <img src="https://github-readme-streak-stats.herokuapp.com/?user=mynameisgrass&theme=dark" alt="GitHub Streak" />
   </a>
 </p>
 
-### Commit Activity & Pulse
+### Commit Pulse
 
 <p align="center">
   <img src="https://repobeats.axiom.co/api/embed/a1df13d38a7d21ac7de9ae1f146e16681ad5eba8.svg" alt="Repobeats analytics image" />
