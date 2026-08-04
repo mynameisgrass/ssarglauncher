@@ -90,14 +90,11 @@ Download and run the recommended `.AppImage`, or install via package manager:
 
 ## Repository Analytics
 
-### Project Statistics & Language Distribution
+### Project Statistics
 
 <p align="center">
   <a href="https://github.com/mynameisgrass/ssarglauncher">
     <img src="https://github-readme-stats.anuraghazra1.vercel.app/api/pin/?username=mynameisgrass&repo=ssarglauncher&theme=dark" alt="Repository Stats" />
-  </a>
-  <a href="https://github.com/mynameisgrass/ssarglauncher">
-    <img src="https://github-readme-stats.anuraghazra1.vercel.app/api/top-langs/?username=mynameisgrass&layout=compact&theme=dark" alt="Top Langs" />
   </a>
 </p>
 
