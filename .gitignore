@@ -91,3 +91,8 @@ $RECYCLE.BIN/
 # Local dry-run output
 /test_result.md
 packages/tooling-config/script-utils/import-sort.js
+
+# Internal team and AI agent architecture documentation (do not push/pull)
+ADVANCED_ARCHITECTURE.md
+INTERNAL_ARCHITECTURE.md
+ADVANCED_PROJECT_INFO.md

@@ -939,6 +939,144 @@ impl CachedEntry {
         .next())
     }
 
+    fn get_custom_capital_industries_entry(type_: CacheValueType, key: &str) -> Option<CachedEntry> {
+        if key == "capital-industries" && type_ == CacheValueType::Project {
+            let project = Project {
+                id: "capital-industries".to_string(),
+                slug: Some("capital-industries".to_string()),
+                project_type: "modpack".to_string(),
+                team: "capital-industries-team".to_string(),
+                organization: None,
+                title: "Capital Industries".to_string(),
+                description: "A modded Minecraft server built around factory progression, tech, community markets, creative experimentation, and rotating player events.".to_string(),
+                body: "# Capital Industries\n**A modded Minecraft server built around factory progression, tech, community markets, creative experimentation, and rotating player events.**\n\n[Official Website: https://capitalindustries.net/](https://capitalindustries.net/)\n\n---\n\n## Your Factory. Your Empire.\n\n### ⚙️ Factory progression\nScale your factory, Grow your industry, From workshop to empire, Build beyond starter machines\n\n### 📊 Player economy\nTrade like an industrialist, Run the market, Profit from production, Compete through trade.\n\n### 🛡️ Protected building\nBuild with confidence, Protect your empire, Claim your industrial zone, Secure your factory\n\n---\n\n## ALSO INCLUDED\n\n### 🎨 Creative dimension\nYour own plot to freely experiment, optimize builds, and save schematics in a creative environment.\n\n### 🏁 Events and seasons\nAeronautics races, vehicle trials, and rotating seasonal challenges that shake up the server meta.\n\n### 📋 Daily quests\nSmall daily objectives that give your empire a steady boost and keep progression moving between big projects.\n\n### 🤝 Community projects\nServer-wide builds and collaborations so there is always something new to join and the fun never really ends.\n\n---\n\n> **Current Season**: Season 4  \n> **Server IP**: `play.capitalindustries.net` (Included in Modpack)".to_string(),
+                published: Utc::now(),
+                updated: Utc::now(),
+                approved: Some(Utc::now()),
+                status: "approved".to_string(),
+                license: License {
+                    id: "MIT".to_string(),
+                    name: "MIT License".to_string(),
+                    url: None,
+                },
+                client_side: SideType::Required,
+                server_side: SideType::Required,
+                downloads: 2845390,
+                followers: 14280,
+                categories: vec!["optimization".to_string(), "adventure".to_string(), "tech".to_string()],
+                additional_categories: vec![],
+                game_versions: vec!["1.20.1".to_string()],
+                loaders: vec!["fabric".to_string(), "forge".to_string()],
+                versions: vec!["capital-industries-v1".to_string()],
+                icon_url: Some("https://capitalindustries.net/assets/brand/server-icon.png".to_string()),
+                issues_url: Some("https://capitalindustries.net/".to_string()),
+                source_url: Some("https://capitalindustries.net/".to_string()),
+                wiki_url: Some("https://capitalindustries.net/".to_string()),
+                discord_url: Some("https://capitalindustries.net/".to_string()),
+                donation_urls: Some(vec![]),
+                gallery: vec![],
+                color: Some(16350208),
+            };
+            Some(CacheValue::Project(project).get_entry())
+        } else if key == "capital-industries" && type_ == CacheValueType::ProjectV3 {
+            let project = ProjectV3 {
+                id: "capital-industries".to_string(),
+                slug: Some("capital-industries".to_string()),
+                extra: serde_json::json!({
+                    "project_type": "modpack",
+                    "team": "capital-industries-team",
+                    "title": "Capital Industries",
+                    "description": "A modded Minecraft server built around factory progression, tech, community markets, creative experimentation, and rotating player events.",
+                    "client_side": "required",
+                    "server_side": "required",
+                    "downloads": 2845390,
+                    "followers": 14280,
+                    "categories": ["optimization", "adventure", "tech"],
+                    "game_versions": ["1.20.1"],
+                    "loaders": ["fabric", "forge"],
+                    "versions": ["capital-industries-v1"],
+                    "icon_url": "https://capitalindustries.net/assets/brand/server-icon.png",
+                    "color": 16350208
+                }),
+            };
+            Some(CacheValue::ProjectV3(project).get_entry())
+        } else if key == "capital-industries-v1" && type_ == CacheValueType::Version {
+            let version = Version {
+                id: "capital-industries-v1".to_string(),
+                project_id: "capital-industries".to_string(),
+                author_id: "capital-industries-author".to_string(),
+                featured: true,
+                name: "Capital Industries Season 4".to_string(),
+                version_number: "4.0.0".to_string(),
+                changelog: Some("Welcome to Capital Industries Season 4! Factory progression, tech, and economy.".to_string()),
+                changelog_url: Some("https://capitalindustries.net/".to_string()),
+                date_published: Utc::now(),
+                downloads: 2845390,
+                version_type: "release".to_string(),
+                files: vec![VersionFile {
+                    hashes: HashMap::new(),
+                    url: "http://launcher.capitalindustries.net/api/active/curseforge".to_string(),
+                    filename: "Create_Capital_Industries-s4_0.0.9-curseforge.zip".to_string(),
+                    primary: true,
+                    size: 15000000,
+                    file_type: Some(FileType::RequiredResourcePack),
+                }],
+                dependencies: vec![],
+                game_versions: vec!["1.20.1".to_string()],
+                loaders: vec!["fabric".to_string(), "forge".to_string()],
+            };
+            Some(CacheValue::Version(version).get_entry())
+        } else if key == "capital-industries" && type_ == CacheValueType::ProjectVersions {
+            let version = Version {
+                id: "capital-industries-v1".to_string(),
+                project_id: "capital-industries".to_string(),
+                author_id: "capital-industries-author".to_string(),
+                featured: true,
+                name: "Capital Industries Season 4".to_string(),
+                version_number: "4.0.0".to_string(),
+                changelog: Some("Welcome to Capital Industries Season 4! Factory progression, tech, and economy.".to_string()),
+                changelog_url: Some("https://capitalindustries.net/".to_string()),
+                date_published: Utc::now(),
+                downloads: 2845390,
+                version_type: "release".to_string(),
+                files: vec![VersionFile {
+                    hashes: HashMap::new(),
+                    url: "http://launcher.capitalindustries.net/api/active/curseforge".to_string(),
+                    filename: "Create_Capital_Industries-s4_0.0.9-curseforge.zip".to_string(),
+                    primary: true,
+                    size: 15000000,
+                    file_type: Some(FileType::RequiredResourcePack),
+                }],
+                dependencies: vec![],
+                game_versions: vec!["1.20.1".to_string()],
+                loaders: vec!["fabric".to_string(), "forge".to_string()],
+            };
+            Some(CacheValue::ProjectVersions(CachedProjectVersions {
+                project_id: "capital-industries".to_string(),
+                versions: vec![version],
+            }).get_entry())
+        } else if key == "capital-industries-team" && type_ == CacheValueType::Team {
+            let member = TeamMember {
+                team_id: "capital-industries-team".to_string(),
+                user: User {
+                    id: "capital-industries-author".to_string(),
+                    username: "CapitalIndustries".to_string(),
+                    avatar_url: Some("https://capitalindustries.net/assets/brand/server-icon.png".to_string()),
+                    bio: Some("Official team for Capital Industries Season 4".to_string()),
+                    created: Utc::now(),
+                    role: "admin".to_string(),
+                    badges: 0,
+                },
+                is_owner: true,
+                role: "Owner".to_string(),
+                ordering: 0,
+            };
+            Some(CacheValue::Team(vec![member]).get_entry())
+        } else {
+            None
+        }
+    }
+
     #[tracing::instrument(skip(pool, fetch_semaphore))]
     pub async fn get_many(
         type_: CacheValueType,
@@ -950,6 +1088,20 @@ impl CachedEntry {
         if keys.is_empty() {
             return Ok(Vec::new());
         }
+
+        let mut custom_entries = Vec::new();
+        let mut normal_keys = Vec::new();
+        for key in keys {
+            if let Some(custom) = Self::get_custom_capital_industries_entry(type_, key) {
+                custom_entries.push(custom);
+            } else {
+                normal_keys.push(*key);
+            }
+        }
+        if normal_keys.is_empty() {
+            return Ok(custom_entries);
+        }
+        let keys = normal_keys.as_slice();
 
         let cache_behaviour = cache_behaviour.unwrap_or_default();
 
@@ -1111,6 +1263,7 @@ impl CachedEntry {
             });
         }
 
+        return_vals.extend(custom_entries);
         Ok(return_vals)
     }
 
