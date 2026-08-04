@@ -1,40 +1,48 @@
 ---
 title: Quick Start Guide
-description: Learn how to install your first modpack and launch Minecraft with Ssarg Launcher.
+description: Configure your first Minecraft instance and deploy modpacks across Modrinth and CurseForge.
 sidebar:
   order: 2
 ---
 
-Welcome to **Ssarg Launcher**! This guide will walk you through setting up your first Minecraft instance and installing modpacks from Modrinth or CurseForge in minutes.
+This guide provides step-by-step instructions for deploying Minecraft instances, searching multi-ecosystem modpack repositories, and managing automated Java runtime environments within Ssarg Launcher.
 
 ---
 
-## 1. Finding & Installing a Modpack
+## 1. Searching & Installing Modpacks
 
-Ssarg Launcher combines **Modrinth** and **CurseForge** into a single unified search bar:
+Ssarg Launcher integrates both the **Modrinth** and **CurseForge** modpack repositories into a single unified search interface.
 
-1. Open **Ssarg Launcher** and click **Browse** or **Search** in the navigation bar.
-2. Type any modpack name (for example, *All the Mods 10*, *RLCraft*, or *Fabrishred*).
-3. Notice the platform badge at the top-left of each project card:
-   - **Green Badge (`Modrinth`)**: Modrinth modpack (`.mrpack`).
-   - **Orange Badge (`CurseForge`)**: CurseForge modpack (`.zip`).
-4. Click **Install** on any modpack. Ssarg Launcher will automatically download the archive and configure the Minecraft instance for you!
-
----
-
-## 2. Automatic Java JDK Setup
-
-You don't need to manually install or switch Java versions on your computer!
-
-- When you click **Play** on an instance, Ssarg Launcher detects the required Java version (Java 8 for older Minecraft 1.12/1.8, Java 17 for 1.18–1.20.4, or Java 21 for 1.20.5+).
-- If that JDK is not installed, the **1-Click Auto-JDK Installer** downloads and extracts the official Temurin JDK automatically using 8x parallel downloading.
-- A real-time progress bar shows the exact download speed and chunk progress.
+1. Open **Ssarg Launcher** and select the **Browse** or **Search** view from the primary navigation bar.
+2. Enter your target modpack query (for example, *All the Mods 10*, *RLCraft*, or *Fabrishred*).
+3. Identify the origin repository via the platform indicator on each project card:
+   - **Modrinth**: Native `.mrpack` archive format.
+   - **CurseForge**: Standard `.zip` archive format.
+4. Click **Install** on your target modpack. Ssarg Launcher will resolve dependencies, download project archives, and initialize an isolated Minecraft instance directory.
 
 ---
 
-## 3. Playing Minecraft
+## 2. Automated Runtime (JDK) Bootstrapping
 
-1. Go to your **Library** tab.
-2. Click **Play** on your newly installed instance.
-3. Log in with your Microsoft/Minecraft account when prompted.
-4. Enjoy a smooth, ad-free Minecraft gaming experience!
+Ssarg Launcher manages Java Virtual Machine (JVM) requirements automatically without requiring global system Java installations or manual path configurations.
+
+- When an instance is launched, the core engine detects the exact Java runtime version mandated by the Minecraft version (Java 8 for Minecraft 1.12.2 and earlier, Java 17 for 1.18 through 1.20.4, or Java 21 for 1.20.5+).
+- If the required JDK is missing from the local runtime cache, the engine initiates a multi-threaded 8x parallel download of the official Eclipse Temurin runtime.
+- Download speed, chunk verification, and archive extraction progress are reported in real time.
+
+---
+
+## 3. Account Authentication & Custom Skins
+
+Ssarg Launcher supports both online Microsoft authentication and offline profile sessions.
+
+- **Microsoft Accounts**: Select **Add Microsoft Account** to authenticate securely via OAuth2 and access official online multiplayer servers.
+- **Offline Profiles & Ely.by Skins**: For offline play or non-Microsoft sessions, create a local profile name. Offline profiles integrate with the third-party **Ely.by** skin ecosystem when the lightweight Ely.by Skins mod is present in your modpack.
+
+---
+
+## 4. Launching Instances
+
+1. Navigate to the **Library** view.
+2. Select your configured instance and click **Play**.
+3. Monitor console output and memory allocation in real time via the built-in diagnostic console.

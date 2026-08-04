@@ -1,21 +1,7 @@
 # Copying Guidelines
 
-All packages in this repository are licensed under their respective licenses. For more information, refer to the LICENSE file in each package.
+All packages in this repository are licensed under their respective licenses. For detailed information, consult each package's LICENSE or COPYING file.
 
-For detailed information, consult each package's COPYING.md, LICENSE.txt, or LICENSE file, if available.
+## Ssarg Launcher Licensing
 
-## Modrinth Branding
-
-The use of Modrinth branding elements, including but not limited to the wrench-in-labyrinth logo, the landing image, and any variations thereof, is strictly prohibited without explicit written permission from Rinth, Inc. This includes trademarks, logos, or other branding elements.
-
-> All rights reserved. © 2020-2025 Rinth, Inc.
-
-This includes, but may not be limited to, the following files:
-
-- .idea/icon.svg
-- .github/api_cover.png
-- .github/app_cover.png
-- .github/monorepo_cover.png
-- .github/web_cover.png
-
-If you fork this repository, you must remove all Modrinth branding assets from your fork.
+Ssarg Launcher is distributed under the terms of the GNU General Public License v3.0 (GPL-3.0). See the individual package license headers and `LICENSE` files for third-party dependency terms.

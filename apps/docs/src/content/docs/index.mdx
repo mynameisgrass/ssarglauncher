@@ -1,15 +1,15 @@
 ---
 title: Ssarg Launcher
-description: The Ultimate Ad-Free, Cross-Platform Minecraft & Modpack Launcher
+description: The High-Performance, Ad-Free, Cross-Platform Minecraft & Modpack Launcher
 template: splash
 hero:
-  tagline: Discover, install, and play Minecraft modpacks across Modrinth and CurseForge in one unified, lightning-fast app.
+  tagline: Discover, install, and manage Minecraft modpacks across Modrinth and CurseForge within a single, high-performance desktop interface.
   actions:
     - text: Download Now
       link: /getting-started/download
       icon: right-arrow
       variant: primary
-    - text: Explore Features
+    - text: Technical Overview
       link: /features/overview
       icon: open-book
       variant: secondary
@@ -21,25 +21,25 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Why Choose Ssarg Launcher?
+## Architectural Advantages
 
 <CardGrid stagger>
-  <Card title="Unified Modrinth + CurseForge Search" icon="magnifier">
-    Search and browse modpacks, mods, shaders, and resource packs across both Modrinth and CurseForge simultaneously in one clean interface.
+  <Card title="Multi-Ecosystem Integration" icon="magnifier">
+    Query and deploy modpacks, mods, shaders, and resource packs across both Modrinth and CurseForge simultaneously within a unified interface.
   </Card>
-  <Card title="Smart Download Ranking" icon="star">
-    Results are automatically sorted by total download count descending (`20M+ → 3M+ → 100K+...`), ensuring legendary packs like *All the Mods*, *FTB*, and *RLCraft* are always at the top.
+  <Card title="Normalized Download Ranking" icon="star">
+    Results are automatically sorted by total download count descending (`20M+ → 3M+ → 100K+`), ensuring industry-standard packs rise to the top.
   </Card>
-  <Card title="100% Ad-Free & Zero Telemetry" icon="approve-check-circle">
-    Your gaming and privacy come first. Zero third-party telemetry, zero advertisements, and a completely clean console without tracking scripts.
+  <Card title="Zero Ad & Telemetry Commitment" icon="approve-check-circle">
+    Engineered without advertising frameworks, sponsored placements, or third-party tracking analytics.
   </Card>
-  <Card title="1-Click Auto-JDK Installer" icon="setting">
-    Never fight with mismatched Java versions again. Automatically downloads and configures Java 8, 17, or 21 with 8x parallel chunk downloading.
+  <Card title="Automated Java Bootstrapping" icon="setting">
+    Automatically detects, downloads, and configures the exact Eclipse Temurin Java runtime (Java 8, 17, or 21) mandated by each Minecraft instance.
   </Card>
-  <Card title="Local Crash Diagnostics Engine" icon="warning">
-    Parses `latest.log` and crash reports locally in Rust to instantly diagnose duplicate mod IDs, missing dependencies (like Sodium/Indium), and Mixin conflicts.
+  <Card title="Automated Crash Diagnostics" icon="warning">
+    Parses logs and crash reports locally in Rust to instantly diagnose missing library dependencies, duplicate mod IDs, and bytecode conflicts.
   </Card>
-  <Card title="Native Cross-Platform Speed" icon="rocket">
-    Built with a blazing-fast **Rust & Tauri** backend and a responsive **Vue 3** frontend for Linux, Windows, and macOS.
+  <Card title="Native Systems Performance" icon="rocket">
+    Built on a native **Rust and Tauri 2.0** core with a responsive **Vue 3 and TypeScript** user interface for Linux, Windows, and macOS.
   </Card>
 </CardGrid>
