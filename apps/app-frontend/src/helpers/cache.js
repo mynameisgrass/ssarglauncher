@@ -5,6 +5,7 @@ import {
 	CAPITAL_INDUSTRIES_TEAM,
 	CAPITAL_INDUSTRIES_VERSION,
 } from './capital-industries.js'
+import { getCurseForgeProject, getCurseForgeProjectVersions } from './curseforge'
 
 function replaceAgedInSearchResults(response, query) {
 	if (query && typeof query === 'string' && query.includes('project_type:mod"') && !query.includes('modpack')) {
@@ -41,34 +42,50 @@ function replaceAgedInSearchResults(response, query) {
 
 export async function get_project(id, cacheBehaviour) {
 	if (id === 'capital-industries') return CAPITAL_INDUSTRIES_PROJECT
+	if (id?.startsWith('cf_')) return await getCurseForgeProject(id.substring(3))
 	return await invoke('plugin:cache|get_project', { id, cacheBehaviour })
 }
 
 export async function get_project_many(ids, cacheBehaviour) {
-	if (ids?.includes('capital-industries')) {
-		const others = ids.filter((id) => id !== 'capital-industries')
+	const cfProjects = await Promise.all(
+		(ids || []).filter(id => id?.startsWith('cf_')).map(id => getCurseForgeProject(id.substring(3)))
+	)
+	const otherIds = (ids || []).filter(id => !id?.startsWith('cf_'))
+
+	if (otherIds?.includes('capital-industries')) {
+		const others = otherIds.filter((id) => id !== 'capital-industries')
 		const results = others.length
 			? await invoke('plugin:cache|get_project_many', { ids: others, cacheBehaviour })
 			: []
-		return [CAPITAL_INDUSTRIES_PROJECT, ...results]
+		return [CAPITAL_INDUSTRIES_PROJECT, ...cfProjects.filter(Boolean), ...results]
 	}
-	return await invoke('plugin:cache|get_project_many', { ids, cacheBehaviour })
+	if (otherIds.length === 0) return cfProjects.filter(Boolean)
+	const results = await invoke('plugin:cache|get_project_many', { ids: otherIds, cacheBehaviour })
+	return [...cfProjects.filter(Boolean), ...results]
 }
 
 export async function get_project_v3(id, cacheBehaviour) {
 	if (id === 'capital-industries') return CAPITAL_INDUSTRIES_PROJECT
+	if (id?.startsWith('cf_')) return await getCurseForgeProject(id.substring(3))
 	return await invoke('plugin:cache|get_project_v3', { id, cacheBehaviour })
 }
 
 export async function get_project_v3_many(ids, cacheBehaviour) {
-	if (ids?.includes('capital-industries')) {
-		const others = ids.filter((id) => id !== 'capital-industries')
+	const cfProjects = await Promise.all(
+		(ids || []).filter(id => id?.startsWith('cf_')).map(id => getCurseForgeProject(id.substring(3)))
+	)
+	const otherIds = (ids || []).filter(id => !id?.startsWith('cf_'))
+
+	if (otherIds?.includes('capital-industries')) {
+		const others = otherIds.filter((id) => id !== 'capital-industries')
 		const results = others.length
 			? await invoke('plugin:cache|get_project_v3_many', { ids: others, cacheBehaviour })
 			: []
-		return [CAPITAL_INDUSTRIES_PROJECT, ...results]
+		return [CAPITAL_INDUSTRIES_PROJECT, ...cfProjects.filter(Boolean), ...results]
 	}
-	return await invoke('plugin:cache|get_project_v3_many', { ids, cacheBehaviour })
+	if (otherIds.length === 0) return cfProjects.filter(Boolean)
+	const results = await invoke('plugin:cache|get_project_v3_many', { ids: otherIds, cacheBehaviour })
+	return [...cfProjects.filter(Boolean), ...results]
 }
 
 export async function get_version(id, cacheBehaviour) {
@@ -150,6 +167,7 @@ export async function purge_cache_types(cacheTypes) {
  */
 export async function get_project_versions(projectId, cacheBehaviour) {
 	if (projectId === 'capital-industries') return [CAPITAL_INDUSTRIES_VERSION]
+	if (projectId?.startsWith('cf_')) return await getCurseForgeProjectVersions(projectId.substring(3))
 	return await invoke('plugin:cache|get_project_versions', {
 		projectId,
 		cacheBehaviour,

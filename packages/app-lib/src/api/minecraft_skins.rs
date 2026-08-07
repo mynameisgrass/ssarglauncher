@@ -504,6 +504,10 @@ pub async fn get_available_skins() -> crate::Result<Vec<Skin>> {
                 source: SkinSource::CustomExternal,
                 is_equipped: true,
             });
+        } else if selected_credentials.access_token.is_empty() {
+            if let Some(first_skin) = available_skins.first_mut() {
+                first_skin.is_equipped = true;
+            }
         }
     }
 
@@ -541,14 +545,16 @@ pub async fn add_and_equip_custom_skin(
     )
     .await?;
 
-    set_pending_skin_change(PendingSkinChange::AddAndEquipCustom {
-        selected_credentials,
-        texture_blob: Bytes::clone(&texture_blob),
-        variant,
-        cape_id,
-        local_texture_key: Arc::clone(&local_texture_key),
-    })
-    .await;
+    if !selected_credentials.access_token.is_empty() {
+        set_pending_skin_change(PendingSkinChange::AddAndEquipCustom {
+            selected_credentials,
+            texture_blob: Bytes::clone(&texture_blob),
+            variant,
+            cape_id,
+            local_texture_key: Arc::clone(&local_texture_key),
+        })
+        .await;
+    }
 
     Ok(Skin {
         texture_key: local_texture_key,
@@ -684,6 +690,29 @@ pub async fn equip_skin(skin: Skin) -> crate::Result<()> {
     let selected_credentials = Credentials::get_default_credential(&state.pool)
         .await?
         .ok_or(ErrorKind::NoCredentialsError)?;
+
+    if selected_credentials.access_token.is_empty() {
+        if let Some(saved_skin) = CustomMinecraftSkin::get_by_texture(
+            selected_credentials.offline_profile.id,
+            &skin.texture_key,
+            &state.pool,
+        )
+        .await?
+        {
+            let texture_blob = saved_skin.texture_blob(&state.pool).await?;
+            CustomMinecraftSkin::add(
+                selected_credentials.offline_profile.id,
+                &skin.texture_key,
+                &texture_blob,
+                skin.variant,
+                skin.cape_id,
+                CustomMinecraftSkinInsertPosition::Top,
+                &state.pool,
+            )
+            .await?;
+        }
+        return Ok(());
+    }
 
     set_pending_skin_change(PendingSkinChange::Equip {
         selected_credentials,

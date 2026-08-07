@@ -100,10 +100,12 @@ fn restart_app(app: tauri::AppHandle) {
 #[tauri::command]
 async fn download_modpack_file(url: String, filename: String) -> api::Result<String> {
     let mut headers = reqwest::header::HeaderMap::new();
-    headers.insert(
-        "x-api-key",
-        reqwest::header::HeaderValue::from_static("$2a$10$3kFa9lBWciEK.lsp7NyCSupZ3XmlAYixZQ9fTczqsz1/.W9QDnLUy"),
-    );
+    if url.starts_with("https://api.curseforge.com") {
+        headers.insert(
+            "x-api-key",
+            reqwest::header::HeaderValue::from_static("$2a$10$3kFa9lBWciEK.lsp7NyCSupZ3XmlAYixZQ9fTczqsz1/.W9QDnLUy"),
+        );
+    }
     let client = reqwest::Client::builder()
         .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
         .default_headers(headers)
@@ -154,6 +156,58 @@ async fn search_curseforge(
         url.push_str(&urlencoding::encode(trimmed));
     }
 
+    let response = client
+        .get(&url)
+        .send()
+        .await
+        .map_err(theseus::Error::from)?
+        .json::<serde_json::Value>()
+        .await
+        .map_err(theseus::Error::from)?;
+    Ok(response)
+}
+
+#[tauri::command]
+async fn get_curseforge_project(id: String) -> api::Result<serde_json::Value> {
+    let mut headers = reqwest::header::HeaderMap::new();
+    headers.insert(
+        "x-api-key",
+        reqwest::header::HeaderValue::from_static("$2a$10$3kFa9lBWciEK.lsp7NyCSupZ3XmlAYixZQ9fTczqsz1/.W9QDnLUy"),
+    );
+
+    let client = reqwest::Client::builder()
+        .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+        .default_headers(headers)
+        .build()
+        .map_err(theseus::Error::from)?;
+
+    let url = format!("https://api.curseforge.com/v1/mods/{}", id);
+    let response = client
+        .get(&url)
+        .send()
+        .await
+        .map_err(theseus::Error::from)?
+        .json::<serde_json::Value>()
+        .await
+        .map_err(theseus::Error::from)?;
+    Ok(response)
+}
+
+#[tauri::command]
+async fn get_curseforge_project_versions(id: String) -> api::Result<serde_json::Value> {
+    let mut headers = reqwest::header::HeaderMap::new();
+    headers.insert(
+        "x-api-key",
+        reqwest::header::HeaderValue::from_static("$2a$10$3kFa9lBWciEK.lsp7NyCSupZ3XmlAYixZQ9fTczqsz1/.W9QDnLUy"),
+    );
+
+    let client = reqwest::Client::builder()
+        .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+        .default_headers(headers)
+        .build()
+        .map_err(theseus::Error::from)?;
+
+    let url = format!("https://api.curseforge.com/v1/mods/{}/files?pageSize=50", id);
     let response = client
         .get(&url)
         .send()
@@ -332,6 +386,8 @@ fn main() {
             show_window,
             restart_app,
             search_curseforge,
+            get_curseforge_project,
+            get_curseforge_project_versions,
             download_modpack_file,
         ]);
 
