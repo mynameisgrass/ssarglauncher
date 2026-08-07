@@ -24,12 +24,14 @@
 				</template>
 				<template v-else>
 					<PageHeaderMetadataNumberItem
+						v-if="project.downloads !== undefined"
 						:icon="DownloadIcon"
 						:value="project.downloads"
 						:label="formatMessage(messages.downloadsStat, { count: project.downloads })"
 						:tooltip="formatNumber(project.downloads)"
 					/>
 					<PageHeaderMetadataNumberItem
+						v-if="project.followers !== undefined"
 						:icon="HeartIcon"
 						:value="project.followers"
 						:label="formatMessage(messages.followersStat, { count: project.followers })"

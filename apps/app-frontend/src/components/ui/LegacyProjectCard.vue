@@ -94,12 +94,14 @@ const toTransparent = computed(() => {
 			</p>
 			<div class="flex items-center gap-2 text-sm text-secondary font-semibold mt-auto">
 				<div
+					v-if="project.downloads !== undefined"
 					class="flex items-center gap-1 pr-2 border-0 border-r-[1px] border-solid border-button-border"
 				>
 					<DownloadIcon />
 					{{ formatCompactNumber(project.downloads) }}
 				</div>
 				<div
+					v-if="project.follows !== undefined"
 					class="flex items-center gap-1 pr-2 border-0 border-r-[1px] border-solid border-button-border"
 				>
 					<HeartIcon />

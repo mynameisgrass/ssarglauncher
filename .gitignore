@@ -96,3 +96,5 @@ packages/tooling-config/script-utils/import-sort.js
 ADVANCED_ARCHITECTURE.md
 INTERNAL_ARCHITECTURE.md
 ADVANCED_PROJECT_INFO.md
+# Added by code-review-graph
+.code-review-graph/

@@ -10,8 +10,6 @@ export const CAPITAL_INDUSTRIES_CARD = {
 	client_side: 'required',
 	server_side: 'required',
 	project_type: 'modpack',
-	downloads: 2845390,
-	follows: 14280,
 	icon_url: 'https://capitalindustries.net/assets/brand/server-icon.png',
 	color: 16350208,
 	gallery: [],
@@ -78,8 +76,6 @@ Contribute to server-wide builds and collaborative engineering challenges so the
 	},
 	client_side: 'required',
 	server_side: 'required',
-	downloads: 2845390,
-	followers: 14280,
 	categories: ['optimization', 'adventure', 'tech'],
 	additional_categories: [],
 	game_versions: ['1.20.1'],
@@ -105,7 +101,6 @@ export const CAPITAL_INDUSTRIES_VERSION = {
 	changelog: 'Welcome to Capital Industries Season 4! Factory progression, tech, and economy.',
 	changelog_url: 'https://capitalindustries.net/',
 	date_published: '2026-08-01T00:00:00.000000Z',
-	downloads: 2845390,
 	version_type: 'release',
 	files: [
 		{
